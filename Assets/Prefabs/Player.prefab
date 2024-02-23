@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4439933540486773093}
   - component: {fileID: 6173555105097253639}
   - component: {fileID: 1428088088707731650}
+  - component: {fileID: 2105407105659919326}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -187,8 +188,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d53f6fa570dbef40a89bfc103328d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTextHealth: {fileID: 0}
   maxHealth: 10
   invulnerableTime: 2
   isInvulnerable: 0
   triggerFlag: 0
   spikeDamage: 0
+--- !u!114 &2105407105659919326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686511268692838090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3021c2d566b550c40abd7582f37ca680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentText: {fileID: 0}

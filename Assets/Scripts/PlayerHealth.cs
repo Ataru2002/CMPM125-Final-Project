@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
     // Start is called before the first frame update
+    public UIHealth currentTextHealth;
     public int maxHealth = 10;
     private int currentHealth;
 
@@ -19,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        currentTextHealth = GetComponent<UIHealth>();
     }
 
     // Update is called once per frame
@@ -32,6 +35,7 @@ public class PlayerHealth : MonoBehaviour
     public void takeDamage(int damage){
         if(!isInvulnerable){
             currentHealth -= damage;
+            currentTextHealth.updateScore(currentHealth);
             StartCoroutine(invulnerable());
             print("Health remaining: " + currentHealth);
             if(currentHealth == 0){
