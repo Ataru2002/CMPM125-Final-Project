@@ -33,7 +33,7 @@ public class PlayerHealth : MonoBehaviour
         if(!isInvulnerable){
             currentHealth -= damage;
             StartCoroutine(invulnerable());
-            print(currentHealth);
+            print("Health remaining: " + currentHealth);
             if(currentHealth == 0){
                 die();
             }
@@ -48,5 +48,6 @@ public class PlayerHealth : MonoBehaviour
     }   
     void die(){
         print("You Died!");
+        LevelManager.instance.OnPlayerDeath();
     }
 }

@@ -24,7 +24,6 @@ public class spikeBehaviour : MonoBehaviour
             playerHealth.triggerFlag = true;
             playerHealth.spikeDamage = 1;
         }
-        print("hi");
     }
 
     private void OnTriggerExit2D(Collider2D other){
