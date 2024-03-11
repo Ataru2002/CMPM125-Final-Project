@@ -8,6 +8,9 @@ public class PlayerHealth : MonoBehaviour
 {
     // Start is called before the first frame update
     public UIHealth currentTextHealth;
+    public ParticleSystem hitParticles;
+    public ParticleSystem healthBarParticles;
+    public HealthBar healthBar;
     public int maxHealth = 10;
     private int currentHealth;
 
@@ -36,6 +39,9 @@ public class PlayerHealth : MonoBehaviour
         if(!isInvulnerable){
             currentHealth -= damage;
             currentTextHealth.updateScore(currentHealth);
+            healthBar.updateBar(currentHealth, maxHealth);
+            hitParticles.Emit(5);
+            healthBarParticles.Emit(5);
             StartCoroutine(invulnerable());
             print("Health remaining: " + currentHealth);
             if(currentHealth == 0){
