@@ -9678,7 +9678,6 @@ GameObject:
   - component: {fileID: 4439933540486773093}
   - component: {fileID: 6173555105097253639}
   - component: {fileID: 1428088088707731650}
-  - component: {fileID: 2105407105659919326}
   - component: {fileID: 1284717311494625286}
   m_Layer: 0
   m_Name: Player
@@ -9792,7 +9791,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.05}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -9802,7 +9801,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.6, y: 1.2}
+  m_Size: {x: 0.6, y: 1.1}
   m_EdgeRadius: 0
 --- !u!50 &4439933540486773093
 Rigidbody2D:
@@ -9855,27 +9854,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d53f6fa570dbef40a89bfc103328d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTextHealth: {fileID: 0}
   hitParticles: {fileID: 6783478280314522642}
+  healthBarParticles: {fileID: 0}
   healthBar: {fileID: 0}
-  maxHealth: 10
-  invulnerableTime: 2
   isInvulnerable: 0
   triggerFlag: 0
   spikeDamage: 0
---- !u!114 &2105407105659919326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4686511268692838090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3021c2d566b550c40abd7582f37ca680, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentText: {fileID: 0}
 --- !u!95 &1284717311494625286
 Animator:
   serializedVersion: 7
