@@ -82,8 +82,7 @@ public class PlayerHealth : MonoBehaviour
 
     void die(){
         print("You Died!");
-        //LevelManager.instance.OnPlayerDeath();
-        SceneManager.LoadScene("gameOver");
+        LevelManager.instance.OnPlayerDeath();
         gameObject.SetActive(false);
     }
 }

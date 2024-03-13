@@ -103,6 +103,13 @@ public class PlayerMovement : MonoBehaviour
         takingInput = true;
     }
 
+    public void Teardown()
+    {
+        rb.velocity = Vector2.zero;
+        spriteRenderer.enabled = false;
+        takingInput = false;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         touchedTransform = collision.transform;
