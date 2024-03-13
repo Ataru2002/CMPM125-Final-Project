@@ -15,6 +15,7 @@ public class PlayerHealth : MonoBehaviour
 
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
+    PlayerMovement mover;
 
     const float invulnerableTime = 1.4f;
     public bool isInvulnerable = false;
@@ -28,6 +29,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        mover = GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -42,17 +44,19 @@ public class PlayerHealth : MonoBehaviour
         if(!isInvulnerable){
             currentHealth -= damage;
             healthBar.updateBar(currentHealth, maxHealth);
-            hitParticles.Emit(5);
+            hitParticles.Emit(10);
             healthBarParticles.Emit(5);
             StartCoroutine(invulnerable());
             StartCoroutine(Flash());
+            StartCoroutine(mover.InputBlip());
+
             print("Health remaining: " + currentHealth);
             if(currentHealth == 0){
                 die();
             }
 
             int direction = spriteRenderer.flipX ? 1 : -1;
-            rb.AddForce(new Vector2(direction * 50, 200));
+            rb.velocity = new Vector2(direction * 3, 5);
         }
     }
 
@@ -78,5 +82,6 @@ public class PlayerHealth : MonoBehaviour
     void die(){
         print("You Died!");
         LevelManager.instance.OnPlayerDeath();
+        gameObject.SetActive(false);
     }
 }

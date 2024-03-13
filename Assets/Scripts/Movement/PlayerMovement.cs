@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
 
     Transform touchedTransform = null;
 
+    bool takingInput = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,12 +36,15 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("Grounded", grounded);
 
         float horizontalInput = Input.GetAxis("Horizontal");
-        float horizontalVelocity = horizontalInput != 0 ? horizontalInput * groundSpeed : rb.velocity.x;
+        float horizontalVelocity = takingInput && horizontalInput != 0 ? horizontalInput * groundSpeed : rb.velocity.x;
 
         // Keep the sprite flipped horizontally while it's not moving if the sprite has been flipped,
         // and make sure that it stays flipped only if the horizontal speed is non-positive (i.e., the character
         // is not moving to the right).
-        spriteRenderer.flipX = (spriteRenderer.flipX || horizontalVelocity < 0) && horizontalVelocity <= 0;
+        if (takingInput)
+        {
+            spriteRenderer.flipX = (spriteRenderer.flipX || horizontalVelocity < 0) && horizontalVelocity <= 0;
+        }
 
         // The particles are emitted from a 45-degree cone. The source has been rotated 135 degrees so that
         // the particles trail the player while the player moves right.
@@ -48,7 +53,8 @@ public class PlayerMovement : MonoBehaviour
         
         animator.SetBool("Running", grounded && horizontalInput != 0);
 
-        if (touchingNonWall && Mathf.Sign(touchedTransform.position.x - transform.position.x) == Mathf.Sign(horizontalInput))
+        bool movingIntoWall = touchingNonWall && Mathf.Sign(touchedTransform.position.x - transform.position.x) == Mathf.Sign(horizontalInput);
+        if (movingIntoWall)
         {
             // Set the horizontal velocity to 0 so that the player cannot stick to walls
             // should not be clingable.
@@ -56,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float verticalVelocity = rb.velocity.y;
-        if (Input.GetKeyDown(KeyCode.Space) && (grounded || touchingWall))
+        if (takingInput && Input.GetKeyDown(KeyCode.Space) && (grounded || touchingWall))
         {
             verticalVelocity = 10;
         }
@@ -88,6 +94,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         runningParticles.Emit(1);
+    }
+
+    public IEnumerator InputBlip()
+    {
+        takingInput = false;
+        yield return new WaitForSeconds(1f);
+        takingInput = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
