@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -81,7 +82,8 @@ public class PlayerHealth : MonoBehaviour
 
     void die(){
         print("You Died!");
-        LevelManager.instance.OnPlayerDeath();
+        //LevelManager.instance.OnPlayerDeath();
+        SceneManager.LoadScene("gameOver");
         gameObject.SetActive(false);
     }
 }
