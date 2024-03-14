@@ -8,10 +8,13 @@ using NUnit.Framework.Constraints;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] int level = 1;
     [SerializeField] float timeLimit;
     float stopwatch = 0.0f;
 
     bool gameOver = false;
+    float levelEndTime;
+    bool newRecord = false;
 
     public static LevelManager instance;
 
@@ -20,7 +23,13 @@ public class LevelManager : MonoBehaviour
     [SerializeField] ParticleSystem goalParticles;
     [SerializeField] Image endScreenFade;
     [SerializeField] GameObject winScreen;
+    [SerializeField] GameObject nextLevelButton;
+    [SerializeField] TextMeshProUGUI newRecordNotice;
     [SerializeField] TextMeshProUGUI countdownTimer;
+
+    AudioSource audioSource;
+    [SerializeField] AudioClip winSound;
+    [SerializeField] AudioClip deathSound;
 
     private void Awake()
     {
@@ -31,7 +40,8 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         playerMover = FindFirstObjectByType<PlayerMovement>();
-
+        audioSource = GetComponent<AudioSource>();
+        GameManager.Instance.SetLastPlayedLevel(level);
         goalParticles.Stop();
     }
 
@@ -42,6 +52,10 @@ public class LevelManager : MonoBehaviour
         if (!gameOver && stopwatch > timeLimit)
         {
             EndLevel();
+
+            audioSource.clip = deathSound;
+            audioSource.Play();
+
             StartCoroutine(LoseSequence());
         }
 
@@ -55,18 +69,34 @@ public class LevelManager : MonoBehaviour
     {
         EndLevel();
         goalParticles.Play();
+        
+        audioSource.clip = winSound;
+        audioSource.Play();
+
+        float recordTime = GameManager.Instance.GetRecordTime(level);
+        if (recordTime <= 0 || GameManager.Instance.GetRecordTime(level) > levelEndTime)
+        {
+            GameManager.Instance.SetRecordTime(level, levelEndTime);
+            newRecord = true;
+        }
+
         StartCoroutine(WinSequence());
     }
 
     public void OnPlayerDeath()
     {
         EndLevel();
+
+        audioSource.clip = deathSound;
+        audioSource.Play();
+
         StartCoroutine(LoseSequence());
     }
 
     void EndLevel()
     {
         gameOver = true;
+        levelEndTime = stopwatch;
         countdownTimer.enabled = false;
         playerMover.Teardown();
     }
@@ -82,6 +112,20 @@ public class LevelManager : MonoBehaviour
         }
         endScreenFade.enabled = false;
         winScreen.SetActive(true);
+        if (newRecord)
+        {
+            newRecordNotice.gameObject.SetActive(true);
+
+            int seconds = Mathf.FloorToInt(levelEndTime);
+            int centiseconds = (int)(100 * levelEndTime) % 100;
+            string noticeText = string.Format("{0:00}'{1:00}\" - New record!", seconds, centiseconds);
+            newRecordNotice.text = noticeText;
+        }
+
+        if (level < 2)
+        {
+            nextLevelButton.SetActive(true);
+        }
     }
 
     IEnumerator LoseSequence()

@@ -10,4 +10,9 @@ public class GameOver : MonoBehaviour
     {
         SceneManager.LoadScene("MainScreen");
     }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene($"Level{GameManager.Instance.GetLastPlayedLevel()}");
+    }
 }

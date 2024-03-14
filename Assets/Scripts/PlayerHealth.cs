@@ -14,6 +14,9 @@ public class PlayerHealth : MonoBehaviour
     const int maxHealth = 5;
     private int currentHealth;
 
+    AudioSource audioSource;
+    [SerializeField] AudioClip spikeHitSound;
+
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
     PlayerMovement mover;
@@ -31,6 +34,7 @@ public class PlayerHealth : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         mover = GetComponent<PlayerMovement>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -45,8 +49,14 @@ public class PlayerHealth : MonoBehaviour
         if(!isInvulnerable){
             currentHealth -= damage;
             healthBar.updateBar(currentHealth, maxHealth);
+            healthBar.ShakeBar();
+
             hitParticles.Emit(10);
             healthBarParticles.Emit(5);
+
+            audioSource.clip = spikeHitSound;
+            audioSource.Play();
+
             StartCoroutine(invulnerable());
             StartCoroutine(Flash());
             StartCoroutine(mover.InputBlip());

@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour
     const float groundDetectionRange = 0.6f;
     const float wallDetectionRange = 0.35f;
     const float deadZone = 0.01f;
+
+    AudioSource audioSource;
+    [SerializeField] AudioClip jumpSound;
+
     SpriteRenderer spriteRenderer;
     Animator animator;
     Rigidbody2D rb;
@@ -23,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         runningParticles = transform.Find("Running Particles").GetComponent<ParticleSystem>();
     }
 
@@ -33,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
         bool touchingWall = TouchingWall();
         bool touchingNonWall = touchedTransform != null && !grounded && !touchingWall;
 
+        animator.SetBool("Clinging", touchingWall);
         animator.SetBool("Grounded", grounded);
 
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -65,6 +71,8 @@ public class PlayerMovement : MonoBehaviour
         if (takingInput && Input.GetKeyDown(KeyCode.Space) && (grounded || touchingWall))
         {
             verticalVelocity = 10;
+            audioSource.clip = jumpSound;
+            audioSource.Play();
         }
 
         Vector2 instantVelocity = new Vector2(horizontalVelocity, verticalVelocity);
