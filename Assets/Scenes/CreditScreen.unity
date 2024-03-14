@@ -767,14 +767,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>Sirapat "Poom" Phunjamaneechot:</b> Movement system programming, player
-    character sprites and animations.
+  m_text: '<b>Nhan Nguyen:</b> UI, HUD, Version control setup
 
 
+    <b>Sirapat "Poom"
+    Phunjamaneechot:</b> Movement system programming, player character sprites and
+    animations.
 
 
-    Sound effects were generated using
-    Bfxr.
+    <b>Wichapas "Harry" Pichetpongsa:</b> Health system programming,
+    player character/spikes interaction programming.
+
+
+    Sound effects were generated
+    using Bfxr.
 
 
     Level background and ladder sprite: <i>https://assetstore.unity.com/packages/2d/environments/megabot-areas-pack-1-195249</i>'

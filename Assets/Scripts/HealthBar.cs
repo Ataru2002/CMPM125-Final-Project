@@ -15,7 +15,6 @@ public class HealthBar : MonoBehaviour
     {
         image = GetComponent<RectTransform>();
         originalPosition = image.transform.localPosition;
-        print("Original pos = " + originalPosition);
         defaultSize = image.sizeDelta.x;
     }
 
